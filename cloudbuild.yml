@@ -1,9 +1,9 @@
 steps:
 - name: 'gcr.io/cloud-builders/docker'
-  args: ['build', '-t', 'gcr.io/YOUR_PROJECT_NAME/webapi:${SHORT_SHA}', '.']
+  args: ['build', '-t', 'gcr.io/YOUR_PROJECT_ID/webapi:${SHORT_SHA}', '.']
   timeout: 500s
 - name: 'gcr.io/cloud-builders/docker'
-  args: ['push', 'gcr.io/YOUR_PROJECT_NAME/webapi:${SHORT_SHA}']
+  args: ['push', 'gcr.io/YOUR_PROJECT_ID/webapi:${SHORT_SHA}']
 - name: 'gcr.io/cloud-builders/gcloud'
   entrypoint: 'bash'
   args:
@@ -18,4 +18,4 @@ steps:
 options:
   machineType: 'N1_HIGHCPU_8'
 timeout: 660s
-images: ['gcr.io/YOUR_PROJECT_NAME/webapi:${SHORT_SHA}']
+images: ['gcr.io/YOUR_PROJECT_ID/webapi:${SHORT_SHA}']

@@ -29,7 +29,7 @@ spec:
     spec:
       containers:
       - name: webapi
-        image: gcr.io/YOUR_PROJECT_NAME/webapi:${SHORT_SHA}
+        image: gcr.io/YOUR_PROJECT_ID/webapi:${SHORT_SHA}
         ports:
         - name: http
           containerPort: 80
