@@ -1,0 +1,36 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: webapi
+spec:
+  selector:
+    app: webapi
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 80
+  type: LoadBalancer
+---
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
+  name: webapi
+  labels:
+    app: webapi
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: webapi
+  template:
+    metadata:
+      labels:
+        app: webapi
+    spec:
+      containers:
+      - name: webapi
+        image: gcr.io/YOUR_PROJECT_NAME/webapi:${SHORT_SHA}
+        ports:
+        - name: http
+          containerPort: 80
+          protocol: TCP

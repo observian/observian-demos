@@ -1,0 +1,21 @@
+steps:
+- name: 'gcr.io/cloud-builders/docker'
+  args: ['build', '-t', 'gcr.io/YOUR_PROJECT_NAME/webapi:${SHORT_SHA}', '.']
+  timeout: 500s
+- name: 'gcr.io/cloud-builders/docker'
+  args: ['push', 'gcr.io/YOUR_PROJECT_NAME/webapi:${SHORT_SHA}']
+- name: 'gcr.io/cloud-builders/gcloud'
+  entrypoint: 'bash'
+  args:
+  - '-c'
+  - |
+   apt-get update -y
+   apt-get install -y gettext
+   export SHORT_SHA=$SHORT_SHA
+   envsubst < k8s.yml > svc.yml
+   gcloud container clusters get-credentials --zone us-east1 demo-cluster
+   kubectl apply -f svc.yml
+options:
+  machineType: 'N1_HIGHCPU_8'
+timeout: 660s
+images: ['gcr.io/YOUR_PROJECT_NAME/webapi:${SHORT_SHA}']
